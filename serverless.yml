@@ -9,8 +9,8 @@ provider:
   region: eu-west-1
 
 functions:
-  push:
-    handler: handler.push
+  auth:
+    handler: handler.auth
     memorySize: 128
     description: Push an event via pusher
     events:
