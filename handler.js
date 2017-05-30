@@ -9,21 +9,17 @@ var pusher = new Pusher({
 });
 
 module.exports.auth = (event, context, callback) => {
+  console.log(event)
   console.log('event.body', event.body)
-  var params = getParams(event.body)
-  console.log('params', params)
-  var {socket_id, channel_name, userId, name, deviceName, profileImage} = params
-  var user_info = {}
-
-  if(userId) presenceData = {
-    user_id : userId, 
-    user_info : {
-      name, 
-      deviceName
-    }
+  var body = JSON.parse(event.body)
+  var {socketId, channelName, user} = body
+  var presenceData = {}
+  if(!!user && !!user.id) presenceData = {
+    user_id : user.id, 
+    user_info : user
   }
 
-  var auth = pusher.authenticate(socket_id, channel_name, presenceData);
+  var auth = pusher.authenticate(socketId, channelName, presenceData);
 
   const response = {
     statusCode: 200,
